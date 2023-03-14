@@ -135,6 +135,22 @@ class Nickel(Coin):
 class Dime(Coin):
     cents = 10
 
+def reverse(n):
+  # base case: if n is less than 10, return n
+  if n < 10:
+    return n
+  # recursive case: extract the last digit of n and add it to the reversed number of n//10
+  else:
+    last_digit = n % 10
+    reversed_rest = reverse (n // 10)
+    # find the number of digits in reversed_rest
+    digits = 0
+    while reversed_rest > 0:
+      digits += 1
+      reversed_rest //= 10
+    # multiply the last digit by 10^digits and add it to the reversed number of n//10
+    return last_digit * (10 ** digits) + reverse (n // 10)
+  
 def store_digits(n):
     """Stores the digits of a positive number n in a linked list.
 
@@ -161,14 +177,24 @@ def store_digits(n):
     #         return helper_func(n//10,llist)
     # return helper_func(n,llist)
 
-    llist = Link()
-    if n == 0:
-        return
-    else:
-        llist.rest = Link(n%10)
-        return store_digits(n//10)
+    # llist = []
+    # if n == 0:
+    #     return
+    # else:
+    #     if llist.first == ():
+    #         llist.first = n%10
+    #         return store_digits(n//10)
+    #     else:
+    #         llist.rest = Link(n%10)
+    #         return store_digits(n//10)
+    new_n = reverse(n)
+    def helper_func(new_n):
+        if new_n == 0:
+            return ()
+        else:
+            return Link(new_n%10,helper_func(new_n//10))
+    return helper_func(new_n)
 
-# print(store_digits(1))
 def deep_map_mut(fn, link):
     """Mutates a deep link by replacing each item found with the
     result of calling fn on the item.  Does NOT create new Links (so
@@ -187,6 +213,25 @@ def deep_map_mut(fn, link):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
+    # if link.rest == ():
+    #     link.first = fn(link.first)
+    # else:
+    #     # if isinstance(link.rest,Link):
+    #     #     deep_map_mut(fn,link.rest)
+    #     # else:
+    #         new_first = fn(link.first)
+    #         link.first = new_first
+    #         link.rest = deep_map_mut(fn, link.rest)
+    # # return link
+
+
+    while link.rest != ():
+        new_first = fn(link.first)
+        link.first = new_first
+        link.rest = deep_map_mut(fn, link.rest)
+    link.first = fn(link.first)
+
+
 
 
 def two_list(vals, amounts):
@@ -293,7 +338,7 @@ class Link:
     """
     empty = ()
 
-    def __init__(self, first, rest=empty):
+    def __init__(self, first=empty, rest=empty):
         assert rest is Link.empty or isinstance(rest, Link)
         self.first = first
         self.rest = rest
@@ -311,6 +356,9 @@ class Link:
             string += str(self.first) + ' '
             self = self.rest
         return string + str(self.first) + '>'
+    
+    def insert_front(linked_list, new_val):
+        return Link(new_val,linked_list)
 
 
 class Tree:
@@ -347,3 +395,26 @@ class Tree:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
         return print_tree(self).rstrip()
+
+def reverse (n):
+  # base case: if n is less than 10, return n
+  if n < 10:
+    return n
+  # recursive case: extract the last digit of n and add it to the reversed number of n//10
+  else:
+    last_digit = n % 10
+    reversed_rest = reverse (n // 10)
+    # find the number of digits in reversed_rest
+    digits = 0
+    while reversed_rest > 0:
+      digits += 1
+      reversed_rest //= 10
+    # multiply the last digit by 10^digits and add it to the reversed number of n//10
+    return last_digit * (10 ** digits) + reverse (n // 10)
+
+print(reverse(1))
+print(store_digits(reverse(123)))
+link1 = Link(3, Link(Link(4), Link(5, Link(6))))
+link2 = Link(1, Link(2, Link(3, Link(4))))
+s = deep_map_mut(lambda x: x * x, link2)
+print(link2)
