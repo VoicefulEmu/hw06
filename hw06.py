@@ -136,19 +136,15 @@ class Dime(Coin):
     cents = 10
 
 def reverse(n):
-  # base case: if n is less than 10, return n
   if n < 10:
     return n
-  # recursive case: extract the last digit of n and add it to the reversed number of n//10
   else:
     last_digit = n % 10
     reversed_rest = reverse (n // 10)
-    # find the number of digits in reversed_rest
     digits = 0
     while reversed_rest > 0:
       digits += 1
       reversed_rest //= 10
-    # multiply the last digit by 10^digits and add it to the reversed number of n//10
     return last_digit * (10 ** digits) + reverse (n // 10)
   
 def store_digits(n):
@@ -168,25 +164,6 @@ def store_digits(n):
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
     "*** YOUR CODE HERE ***"
-    # llist = Link(n)
-    # def helper_func(n,llist):
-    #     if n == 0:
-    #         return llist
-    #     else:
-    #         llist.rest = Link(n%10)
-    #         return helper_func(n//10,llist)
-    # return helper_func(n,llist)
-
-    # llist = []
-    # if n == 0:
-    #     return
-    # else:
-    #     if llist.first == ():
-    #         llist.first = n%10
-    #         return store_digits(n//10)
-    #     else:
-    #         llist.rest = Link(n%10)
-    #         return store_digits(n//10)
     new_n = reverse(n)
     def helper_func(new_n):
         if new_n == 0:
@@ -213,26 +190,15 @@ def deep_map_mut(fn, link):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
-    # if link.rest == ():
-    #     link.first = fn(link.first)
-    # else:
-    #     # if isinstance(link.rest,Link):
-    #     #     deep_map_mut(fn,link.rest)
-    #     # else:
-    #         new_first = fn(link.first)
-    #         link.first = new_first
-    #         link.rest = deep_map_mut(fn, link.rest)
-    # # return link
-
-
-    while link.rest != ():
-        new_first = fn(link.first)
-        link.first = new_first
-        link.rest = deep_map_mut(fn, link.rest)
-    link.first = fn(link.first)
-
-
-
+    if link is Link.empty:
+        return
+    else:
+        if isinstance(link.first,Link):
+            deep_map_mut(fn, link.first)
+        else:
+            new_first = fn(link.first)
+            link.first = new_first
+        deep_map_mut(fn, link.rest)
 
 def two_list(vals, amounts):
     """
@@ -254,6 +220,8 @@ def two_list(vals, amounts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
+    for i in vals:
+        return_llist = Link()
 
 
 class VirFib():
