@@ -220,8 +220,22 @@ def two_list(vals, amounts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
-    for i in vals:
-        return_llist = Link()
+    
+    big_llist = ()
+    for i in range(len(vals)):
+        cur_val = vals.pop()
+        cur_count = amounts.pop()
+        x = 0
+        while x < cur_count:
+            if big_llist == ():
+                big_llist = Link(cur_val)
+            else:
+                big_llist = big_llist.insert_front(cur_val)
+            x+=1
+    return big_llist
+
+
+
 
 
 class VirFib():
@@ -379,10 +393,3 @@ def reverse (n):
       reversed_rest //= 10
     # multiply the last digit by 10^digits and add it to the reversed number of n//10
     return last_digit * (10 ** digits) + reverse (n // 10)
-
-print(reverse(1))
-print(store_digits(reverse(123)))
-link1 = Link(3, Link(Link(4), Link(5, Link(6))))
-link2 = Link(1, Link(2, Link(3, Link(4))))
-s = deep_map_mut(lambda x: x * x, link2)
-print(link2)
